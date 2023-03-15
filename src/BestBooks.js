@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Carousel } from "react-bootstrap";
-
+console.log(process.env.REACT_APP_DEV_ENV);
 function BestBooks() {
   const [books, setBooks] = useState([]);
   // We are using useEffect instead of componentDidMount because functional components are better.
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get("/books");
+        const API = process.env.REACT_APP_DEV_ENV === "development" ? "http://localhost:8080/books" : "/books";
+        const response = await axios.get(API);
         // Store the book data returned from the api in state.
         setBooks(response.data);
       } catch (error) {
